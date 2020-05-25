@@ -2,7 +2,7 @@
 
 App can track and visualize user's daily activities so that user can plan their day better.
 
-<img src="https://img.shields.io/badge/language-null-green">
+<img src="https://img.shields.io/badge/language-javascript-green">
 
 ## Links
 
