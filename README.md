@@ -1,3 +1,4 @@
+
 # Project 2: Max your time
 
 App can track and visualize user's daily activities so that user can plan their day better.
@@ -12,7 +13,7 @@ App can track and visualize user's daily activities so that user can plan their 
 
 [Project management](https://github.com/maxtsimpson/maxyourpower/projects/1)
 
-![Wireframe]()
+![Wireframe](/Wireframe.png)
 
 ## User Story
 
