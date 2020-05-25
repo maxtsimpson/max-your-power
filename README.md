@@ -1,65 +1,70 @@
+# Project 2: Max your time
 
-# maxyourpower
-maximise your time to spend doing what you want to do
-
-You can view the project here: https://maxyourtime.herokuapp.com/
+App can track and visualize user's daily activities so that user can plan their day better.
 
 <img src="https://img.shields.io/badge/language-null-green">
-<img src="https://img.shields.io/badge/last%20updated-2020%2005%2023T03:06:48Z-green?style=plastic&logo=github">
 
-## Contents
-- [Installation](#Installation)
-- [Usage](#Usage)
-- [License](#License)
-- [Contributing](#Contributing)
-- [Tests](#Tests)
-- [Questions](#Questions)
-## Installation
+## Links
 
-You can download a copy of the code by using the below command in git bash or your terminal
+[GitHub repo](https://github.com/maxtsimpson/maxyourpower)
 
-ssh:
-```git clone git@github.com:maxtsimpson/maxyourpower.git```
+[Deployed link](https://maxyourtime.herokuapp.com/)
 
-https:
-```git clone https://github.com/maxtsimpson/maxyourpower.git```
+[Project management](https://github.com/maxtsimpson/maxyourpower/projects/1)
 
-## Usage
-undefined
+![Wireframe]()
 
-## License
-MIT License
+## User Story
 
-Copyright (c) 2020 max simpson
+```md
+AS A user
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+I WANT a time tracking application,
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+SO THAT I can visualize my daily activities and plan my day better and efficiently.
+```
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+## Acceptance Criteria
 
-## Contributing
-If you'd like to contribute you're welcome to. pull requests should include relevant unit tests where applicable
+```md
+GIVEN the time tracking application,
 
-## Tests
-My repos aim to use test driven development. they may currently lack tests, but they will have them eventually
-This section will contain instructions on running those tests
+WHEN I spend time on different activities every day
 
-## Questions
-If you have any questions please email me at the link below. frequently asked questions will be added to this section with answers
+THEN I can use time tracking app to record the time
 
-<a href="mailto:maxsimpson95@gmail.com">maxsimpson95@gmail.com</a>
+WHEN I want to plan my next day
 
-<img src="https://avatars0.githubusercontent.com/u/59285308?v=4" alt="Profile Pic" width="200" height="200">
+THEN I can make decisions based on my time tracking history dashboard
+```
+
+## Milestone
+
+1. determine techs, APIs and frameworks used to meet project requirements
+
+2. initial config setup and file structure using MVC Paradigm
+
+3. code implementation for both frontend and backend
+
+4. debug, integration and testing
+
+5. TBC
+
+## Split Roles
+
+Frontend | Backend
+---------|----------
+Ken | Max
+Lisheng | Mohammed
+
+## Project Requirements
+
+- Must use a Node and Express Web Server
+- Must be backed by a MySQL Database with a Sequelize ORM
+- Must have both GET and POST routes for retrieving and adding new data
+- Must be deployed using Heroku (with Data)
+- Must utilize at least one new library, package, or technology that we haven’t discussed
+- Must have a polished frontend / UI
+- Must have folder structure that meets MVC Paradigm
+- Must meet good quality coding standards (indentation, scoping, naming)
+- Must not expose sensitive API key information on the server.
