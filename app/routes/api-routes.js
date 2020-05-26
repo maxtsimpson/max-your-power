@@ -4,7 +4,7 @@
 
 // Dependencies
 // =============================================================
-var Category = require("../models/category.js");
+var Category = require("../../models/category.js");
 
 
 // Routes
