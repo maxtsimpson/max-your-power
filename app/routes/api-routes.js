@@ -4,15 +4,15 @@
 
 // Dependencies
 // =============================================================
-var Category = require("../models/category.js");
-
+const Category = require("../../models/category.js");
+const TimeBlock = require("../../models/timeblock.js");
 
 // Routes
 // =============================================================
 module.exports = function(app) {
 
   // Get all Categorys
-  app.get("/api/all", function(req, res) {
+  app.get("/api/category/all", function(req, res) {
 
     // Finding all Categorys, and then returning them to the user as JSON.
     // Sequelize queries are asynchronous, which helps with perceived speed.
@@ -26,7 +26,7 @@ module.exports = function(app) {
   });
 
   // Add a Category
-  app.post("/api/new", function(req, res) {
+  app.post("/api/category/new", function(req, res) {
 
     console.log("Category Data:");
     console.log(req.body);
