@@ -4,8 +4,8 @@
 
 // Dependencies
 // =============================================================
-const Category = require("../../models/category.js");
-const TimeBlock = require("../../models/timeblock.js");
+const Category = require("../models/category.js");
+const TimeBlock = require("../models/timeblock.js");
 
 // Routes
 // =============================================================

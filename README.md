@@ -13,7 +13,7 @@ App can track and visualize user's daily activities so that user can plan their 
 
 [Project management](https://github.com/maxtsimpson/maxyourpower/projects/1)
 
-![Wireframe](/Wireframe.png)
+![Wireframe](/public/assets/img/Wireframe.png)
 
 ## User Story
 
