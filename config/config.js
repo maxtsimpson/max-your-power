@@ -2,15 +2,24 @@ require('dotenv').config();
 
 module.exports = {
   "development": {
-    "url": process.env.JAWSDB_URL,
-    "dialect": "mysql",
+    "username": process.env.JAWSDB_USERNAME,
+    "password": process.env.JAWSDB_PASSWORD,
+    "database": process.env.JAWSDB_DATABASE,
+    "host": process.env.JAWSDB_HOST,
+    "dialect": "mysql"
   },
   "test": {
-    "url": process.env.JAWSDB_URL,
-    "dialect": "mysql",
+    "username": process.env.JAWSDB_USERNAME,
+    "password": process.env.JAWSDB_PASSWORD,
+    "database": process.env.JAWSDB_DATABASE,
+    "host": process.env.JAWSDB_HOST,
+    "dialect": "mysql"
   },
   "production": {
-    "url": process.env.JAWSDB_URL,
+    "username": process.env.JAWSDB_USERNAME,
+    "password": process.env.JAWSDB_PASSWORD,
+    "database": process.env.JAWSDB_DATABASE,
+    "host": process.env.JAWSDB_HOST,
     "dialect": "mysql",
   }
 }
