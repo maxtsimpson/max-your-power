@@ -61,10 +61,7 @@ module.exports = function (app) {
   });
 
   //=================== Authentication ==============================//
-  app.get("/auth/facebook/login",function (req, res) {
-    console.log("in the /auth/facebook/login route")
-    passport.authenticate('facebook')
-  })
+  app.get("/auth/facebook/",passport.authenticate('facebook'))
 
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/' }), function (req, res) {

@@ -45,10 +45,12 @@ passport.use(new LocalStrategy(
     clientSecret: process.env.FB_SECRET,
     callbackURL: `http://localhost:${process.env.PORT}/auth/facebook/callback`
   },
-  function(accessToken, refreshToken, profile, cb) {
-    db.User.findOrCreate({ facebook: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
+  function(accessToken, refreshToken, profile, callbackFunction) {
+    console.log("in the FacebookStrategy create or update")
+    console.log({profile})
+    db.User.findOrCreate({where: { facebook: profile.id }})
+      .then((user) => {return callbackFunction(null, user)})
+      .catch((err) => console.log(err))
   }
 ));
 
