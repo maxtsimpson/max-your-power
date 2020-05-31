@@ -3,8 +3,7 @@ $(document).ready(function() {
   // and updates the HTML on the page
   console.log("on members page")
 
-  $.get("/api/user_data").then(function(data) {
-    console.log({data})
-    $(".member-name").text(data.firstName);
+  $.get("/auth/user_data").then(function(user) {
+    $(".member-name").text(user.firstName);
   });
 });

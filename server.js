@@ -41,6 +41,7 @@ app.all('/*', function(req, res, next) {
 // =============================================================
 require("./routes/html-routes.js")(app);
 require("./routes/api-routes.js")(app);
+require("./routes/auth-routes.js")(app);
 
 // Starts the server to begin listening
 // =============================================================

@@ -7,7 +7,7 @@
 require('dotenv').config();
 const passport = require('passport');
 const db = require("../models")
-const axios = require("axios")
+const { Op } = require("sequelize");
 
 // Routes
 // =============================================================
@@ -46,70 +46,5 @@ module.exports = function (app) {
   });
 
 
-  //=================== Authentication ==============================//
-  app.get("/auth/facebook/",passport.authenticate('facebook'))
-
-  app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { failureRedirect: '/' }), function (req, res) {
-      console.log("in the /auth/facebook/callback route")
-      res.redirect('/members');
-    });
-
-
-  app.post("/api/login", passport.authenticate("local"), function (req, res) {
-    res.json(req.user);
-  });
-
-  // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
-  // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
-  // otherwise send back an error
-  app.post("/api/signup", function (req, res) {
-    console.log({req})
-    db.User.findOne({where: { email: req.body.email }})
-    .then(function (existingUser) {
-      if (existingUser === null){
-        console.log(req.body)
-        db.User.create(req.body)
-          .then(function () {
-            res.redirect(307, "/api/login");
-          })
-          .catch(function (err) {
-            //the error returned from sequalize is a big object so need to get the actual error message
-            res.status(401).json(err.errors[0].message);
-          });
-      } else {
-        res.status(401).json('There is already a user with this email address')
-      } 
-    })
-    .catch(function (err) {
-      //the error returned from sequalize is a big object so need to get the actual error message
-      res.status(401).json(err.errors[0].message);
-    });
-
-    
-  });
-
-  // Route for logging user out
-  app.get("/logout", function (req, res) {
-    req.logout();
-    res.redirect("/");
-  });
-
-  // Route for getting some data about our user to be used client side
-  app.get("/api/user_data", function (req, res) {
-    console.log("user_data api")
-    console.log(req.user)
-    if (!req.user) {
-      console.log("no req.user object")
-      // The user is not logged in, send back an empty object
-      res.json({});
-    } else {
-      db.User.findOne({where: { id: req.user.id, }})
-      .then((user) => {
-        console.log(user)
-        res.json(user)
-      })
-      .catch((error) => res.status(500).json(error))
-    }
-  });
+  
 };
