@@ -45,20 +45,6 @@ module.exports = function (app) {
 
   });
 
-  // Route for getting some data about our user to be used client side
-  app.get("/api/user_data", function (req, res) {
-    if (!req.user) {
-      // The user is not logged in, send back an empty object
-      res.json({});
-    } else {
-      // Otherwise send back the user's email and id
-      // Sending back a password, even a hashed password, isn't a good idea
-      res.json({
-        email: req.user.email,
-        id: req.user.id
-      });
-    }
-  });
 
   //=================== Authentication ==============================//
   app.get("/auth/facebook/",passport.authenticate('facebook'))
@@ -78,16 +64,12 @@ module.exports = function (app) {
   // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
   // otherwise send back an error
   app.post("/api/signup", function (req, res) {
-
-    db.User.findOne({where: { email: user.email }})
+    console.log({req})
+    db.User.findOne({where: { email: req.body.email }})
     .then(function (existingUser) {
       if (existingUser === null){
-        db.User.create({
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          password: req.body.password
-        })
+        console.log(req.body)
+        db.User.create(req.body)
           .then(function () {
             res.redirect(307, "/api/login");
           })
@@ -115,18 +97,19 @@ module.exports = function (app) {
 
   // Route for getting some data about our user to be used client side
   app.get("/api/user_data", function (req, res) {
+    console.log("user_data api")
+    console.log(req.user)
     if (!req.user) {
+      console.log("no req.user object")
       // The user is not logged in, send back an empty object
       res.json({});
     } else {
-      // Otherwise send back the user's email and id
-      // Sending back a password, even a hashed password, isn't a good idea
-      res.json({
-        email: req.user.email,
-        id: req.user.id,
-        firstName: req.user.firstName,
-        lastName: req.user.lastName,
-      });
+      db.User.findOne({where: { id: req.user.id, }})
+      .then((user) => {
+        console.log(user)
+        res.json(user)
+      })
+      .catch((error) => res.status(500).json(error))
     }
   });
 };
