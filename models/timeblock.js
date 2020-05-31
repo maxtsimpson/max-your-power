@@ -6,13 +6,12 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   Timeblock.associate = function(models) {
-    // Associating Author with Posts
-    // When an Author is deleted, also delete any associated Posts
-    Timeblock.hasOne(models.Category);
+    //a timeblock belongs to a category and a user
+    Timeblock.belongsTo(models.Category);
     Timeblock.belongsTo(models.User);
   };
 
   // Syncs with DB
-  Timeblock.sync();
+  // Timeblock.sync();
   return Timeblock
 }

@@ -42,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
 
   User.associate = function(models) {
     // Associating Author with Posts
-    // When an Author is deleted, also delete any associated Posts
+    // When a user is deleted, delete their associated categories and timeblocks
     User.hasMany(models.Category, {
       onDelete: "cascade"
     });
@@ -53,7 +53,7 @@ module.exports = function (sequelize, DataTypes) {
   };
   
   // Syncs with DB
-  User.sync();
+  // User.sync();
 
   return User
 }
