@@ -1,9 +1,3 @@
-// Dependencies
-// =============================================================
-// require('dotenv').config();
-// This may be confusing but here Sequelize (capital) references the standard library
-// const Sequelize = require("sequelize");
-// sequelize (lowercase) references our connection to the DB.
 module.exports = function(sequelize, DataTypes) {
   // Creates a "Category" model that matches up with DB
   const Category = sequelize.define("Category", {
@@ -15,7 +9,3 @@ module.exports = function(sequelize, DataTypes) {
 
   return Category
 }
-
-
-// Makes the Category Model available for other files (will also create a table)
-// module.exports = Category;

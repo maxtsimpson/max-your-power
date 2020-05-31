@@ -1,13 +1,5 @@
 // Dependencies
 // =============================================================
-
-//had some inspiration from this repo https://github.com/sahat/hackathon-starter
-
-// require('dotenv').config();
-// This may be confusing but here Sequelize (capital) references the standard library
-// const Sequelize = require("sequelize");
-// sequelize (lowercase) references our connection to the DB.
-// const sequelize = new Sequelize(process.env.JAWSDB_URL, { dialect: "mysql" });
 const bcrypt = require('bcrypt');
 
 module.exports = function (sequelize, DataTypes) {
