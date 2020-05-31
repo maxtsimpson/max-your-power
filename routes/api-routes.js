@@ -14,19 +14,51 @@ const { Op } = require("sequelize");
 module.exports = function (app) {
 
   // Get all Categorys
-  app.get("/api/category/all", function (req, res) {
+  app.get("/api/category/", function (req, res) {
 
-    // Finding all Categorys, and then returning them to the user as JSON.
-    // Sequelize queries are asynchronous, which helps with perceived speed.
-    // If we want something to be guaranteed to happen after the query, we'll use
-    // the .then function
-    Category.findAll({}).then(function (results) {
+    //get all categories for this user. this should be called after the user is logged in
+    //passport will have added a user property to the request with the user details
+
+    db.Category.findAll({
+      where: { UserId: req.user.id }
+    })
+    .then((categories) => {
       // results are available to us inside the .then
-      res.json(results);
-    });
+      res.json(categories);
+    })
+    .catch((error) => {
+      console.log({error})
+      res.json(error)
+    })
 
   });
 
+
+  // Get all Categorys and sum the duration of their timeblocks as a % of the day.
+  app.get("/api/category/timeSummaryPercentageOfDay", function (req, res) {
+
+    //get all categories for this user. this should be called after the user is logged in
+    //passport will have added a user property to the request with the user details
+
+    db.Category.findAll({
+      where: { UserId: req.user.id },
+    })
+    .then((categories) => {
+      categories.map((category) => {
+        category.getTimeblocks()
+        .then({
+            
+        })
+      })
+      // results are available to us inside the .then
+      res.json(categories);
+    })
+    .catch((error) => {
+      console.log({error})
+      res.json(error)
+    })
+
+  });
 
   // Add a Category
   app.post("/api/category/new", function (req, res) {
