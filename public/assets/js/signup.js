@@ -24,10 +24,6 @@ $(document).ready(function() {
     }
     // If we have an email and password, run the signUpUser function
     signUpUser(userData);
-    // emailInput.val("");
-    // passwordInput.val("");
-    // firstNameInput.val("");
-    // lastNameInput.val("");
   });
 
   // Does a post to the signup route. If successful, we are redirected to the members page
