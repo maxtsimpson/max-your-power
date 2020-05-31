@@ -22,24 +22,25 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       unique: true,
     },
-    name: {
+    firstName: {
+      type: DataTypes.STRING,
+    },
+    lastName: {
       type: DataTypes.STRING,
     }
   });
 
   User.addHook("beforeCreate", function (user) {
-    console.log("in before create")
-    console.log({user})
-    console.log(user.password)
+    //facebook logins have an undefined password
     if(user.password !== undefined){
       user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
     }
     
   });
 
-  User.prototype.comparePassword = function comparePassword(candidatePassword, cb) {
+  User.prototype.comparePassword = function comparePassword(candidatePassword, callback) {
     bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-      cb(err, isMatch);
+      callback(err, isMatch);
     });
   };
 
@@ -51,5 +52,3 @@ module.exports = function (sequelize, DataTypes) {
   User.sync();
   return User
 }
-// Makes the User Model available for other files (will also create a table)
-// module.exports = User;

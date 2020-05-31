@@ -79,19 +79,12 @@ module.exports = function (app) {
   // otherwise send back an error
   app.post("/api/signup", function (req, res) {
 
-    const user = {
-      email: req.body.email,
-      password: req.body.password
-    }
-
-    console.log("api signup")
-    console.log({ user })
-
     db.User.findOne({where: { email: user.email }})
     .then(function (existingUser) {
-      console.log({existingUser})
       if (existingUser === null){
         db.User.create({
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
           email: req.body.email,
           password: req.body.password
         })
@@ -130,7 +123,9 @@ module.exports = function (app) {
       // Sending back a password, even a hashed password, isn't a good idea
       res.json({
         email: req.user.email,
-        id: req.user.id
+        id: req.user.id,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
       });
     }
   });

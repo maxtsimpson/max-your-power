@@ -43,68 +43,28 @@ passport.use(new LocalStrategy(
   passport.use(new FacebookStrategy({
     clientID: process.env.FB_APPID,
     clientSecret: process.env.FB_SECRET,
-    callbackURL: `http://localhost:${process.env.PORT}/auth/facebook/callback`
+    callbackURL: `http://localhost:${process.env.PORT}/auth/facebook/callback`,
+    profileFields: ['name', 'email']
   },
   function(accessToken, refreshToken, profile, callbackFunction) {
     console.log("in the FacebookStrategy create or update")
     console.log({profile})
-    db.User.findOrCreate({where: { facebook: profile.id }})
+
+    db.User.findOrCreate({
+        where: { 
+          facebook: profile.id,
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
+        },
+        defaults: {
+          //this should just use the properties from the where clause          
+        }
+      },
+      )
       .then((user) => {return callbackFunction(null, user)})
       .catch((err) => console.log(err))
   }
 ));
-
-// passport.use(new FacebookStrategy({
-//     clientID: process.env.FB_APPID,
-//     clientSecret: process.env.FB_SECRET,
-//     callbackURL: `${process.env.BASE_URL}/auth/facebook/callback`,
-//     profileFields: ['name', 'email'],
-//     passReqToCallback: true
-// }, (req, accessToken, refreshToken, profile, done) => {
-//     if (req.user) {
-//         User.findOne({ facebook: profile.id }, (err, existingUser) => {
-//             if (err) { return done(err); }
-//             if (existingUser) {
-//                 req.flash('errors', { msg: 'There is already a Facebook account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
-//                 done(err);
-//             } else {
-//                 User.findById(req.user.id, (err, user) => {
-//                     if (err) { return done(err); }
-//                     user.facebook = profile.id;
-//                     user.tokens.push({ kind: 'facebook', accessToken });
-//                     user.profile.name = user.profile.name || `${profile.name.givenName} ${profile.name.familyName}`;
-//                     user.save((err) => {
-//                         req.flash('info', { msg: 'Facebook account has been linked.' });
-//                         done(err, user);
-//                     });
-//                 });
-//             }
-//         });
-//     } else {
-//         User.findOne({ facebook: profile.id }, (err, existingUser) => {
-//             if (err) { return done(err); }
-//             if (existingUser) {
-//                 return done(null, existingUser);
-//             }
-//             User.findOne({ email: profile._json.email }, (err, existingEmailUser) => {
-//                 if (err) { return done(err); }
-//                 if (existingEmailUser) {
-//                     req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Facebook manually from Account Settings.' });
-//                     done(err);
-//                 } else {
-//                     const user = new User();
-//                     user.email = profile._json.email;
-//                     user.facebook = profile.id;
-//                     user.tokens.push({ kind: 'facebook', accessToken });
-//                     user.profile.name = `${profile.name.givenName} ${profile.name.familyName}`;
-//                     user.save((err) => {
-//                         done(err, user);
-//                     });
-//                 }
-//             });
-//         });
-//     }
-// }));
 
 passport.serializeUser(function(user, cb) {
   cb(null, user);
