@@ -58,17 +58,11 @@ module.exports = function (app) {
             res.json({});
         }
 
-        let user = req.user
-        //for some reason the facebook auth returns req.user as an array, were local doesnt
-        if (Array.isArray(req.user)) {
-            user = req.user[0]
-        }
-
         //find a user either by their id if it's been populated or by their facebook id
         db.User.findOne(
             {
                 where:
-                    { [Op.or]: [{ id: user.id, }, { facebook: user.facebook, }] },
+                    { [Op.or]: [{ id: req.user.id, }, { facebook: req.user.facebook, }] },
             })
             .then((user) => {
                 res.json(user)

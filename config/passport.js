@@ -46,7 +46,7 @@ passport.use(new LocalStrategy(
     callbackURL: `http://localhost:${process.env.PORT}/auth/facebook/callback`,
     profileFields: ['name', 'email']
   },
-  function(accessToken, refreshToken, profile, callbackFunction) {
+  function(accessToken, refreshToken, profile, done) {
     console.log("in the FacebookStrategy create or update")
     console.log({profile})
 
@@ -61,7 +61,12 @@ passport.use(new LocalStrategy(
         }
       },
       )
-      .then((user) => {return callbackFunction(null, user)})
+      .then((user) => {
+        console.log("====================")
+        console.log(user[0]) //looks like an array instead of object is returned
+        console.log("====================")
+        return done(null, user[0])
+      })
       .catch((err) => console.log(err))
   }
 ));
