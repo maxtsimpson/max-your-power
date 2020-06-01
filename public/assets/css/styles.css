@@ -1,14 +1,66 @@
 body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    background-color: black;
-  }
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #2193b0;
+  /*background-image: linear-gradient(#fdc830,#f37335);*/
+}
+nav{
+  background-color: white;
+}
+.nav-wrapper .brand-logo{
+  color: #2193b0;
+}
+main {
+  flex: 1 0 auto;
+}
 
-  main {
-    flex: 1 0 auto;
-  }
+#categoryname {
+  border-radius: 5px;
+}
 
-  nav{
-    text color: red;
-  }
+/*Battery Styling*/
+p#timerdefault{
+  text-align: right;
+  font-weight: 500;
+  padding: 10px;
+  color: white;
+}
+p#timer{
+  text-align: right;
+  font-weight: 500;
+  padding: 10px;
+  padding-right: 30px;
+}
+p.defaultsleep{
+  color: white;
+  padding: 10px;
+}
+.card .col{
+  padding: 10px;
+}
+.card.blue{
+  background-image: linear-gradient(#6dd5ed,#2193b0);
+}
+:hover.card.blue{
+  background-image: linear-gradient(#2193b0,#2193b0);
+}
+.card.orange{
+  background-image: linear-gradient(#FDC830,#F37335);
+}
+:hover.card.orange{
+  background-image: linear-gradient(#F37335,#F37335);
+}
+.flow-text{
+  font-weight: 500;
+}
+/*progress bar*/
+.progress .determinate {
+  background-color: red;
+}
+
+
+.page-footer{
+  background-color: whitesmoke;
+  color: #2193b0;
+}
