@@ -53,7 +53,7 @@ const myLineChart = new Chart(ctx2, {
     labels: weekDays,
     datasets: [
       {
-        labels: weekDays,
+        label: "sleep",
         data: data,
         borderColor: ["rgba(255, 99, 132, 1)"],
         borderWidth: 3,
