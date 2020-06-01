@@ -21,7 +21,7 @@ module.exports = {
     console.log('finished bulk insert of Users');
 
     const users = await queryInterface.sequelize.query(
-      `SELECT * from Users;`
+      `SELECT id from Users;`
     );
 
     let user = users[0] //this gets back the first row returned
