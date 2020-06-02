@@ -19,10 +19,9 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   Timeblock.addHook("beforeCreate", function (timeblock) {
-    //facebook logins have an undefined password
+    console.log("in timeblock before hook")
+    //if the startime and endtime are defined then get their diff as duration in hours
     if(timeblock.startTime !== undefined && timeblock.endTime !== undefined){
-      // let startTime = moment(timeblock.startTime)
-      // let endTime = moment(timeblock.endTime)
       timeblock.duration = moment(timeblock.endTime).diff(moment(timeblock.startTime),'hours',true)
     }
     

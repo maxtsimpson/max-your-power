@@ -1,4 +1,5 @@
 const moment = require("moment")
+const db = require("../models")
 'use strict';
 
 module.exports = {
@@ -24,8 +25,8 @@ module.exports = {
       `SELECT id from Users;`
     );
 
-    let user = users[0] //this gets back the first row returned
-    let userID = user[0].id //for some reason this is an array as well
+    const user = users[0] //this gets back the first row returned
+    const userID = user[0].id //for some reason this is an array as well
 
     await queryInterface.sequelize.query(
       `delete from Categories;`
@@ -50,11 +51,11 @@ module.exports = {
       `SELECT id from Categories;`
     );
 
-    let category1 = categories[0] //this gets back the first row returned
-    let category1ID = category1[0].id //for some reason this is an array as well
+    const category1 = categories[0] //this gets back the first row returned
+    const category1ID = category1[0].id //for some reason this is an array as well
 
-    let category2 = categories[0] //this gets back the first row returned
-    let category2ID = category2[0].id //for some reason this is an array as well
+    const category2 = categories[0] //this gets back the first row returned
+    const category2ID = category2[0].id //for some reason this is an array as well
 
     console.log('about to start bulk insert of timeblocks');
 
@@ -62,18 +63,21 @@ module.exports = {
       `delete from Timeblocks;`
     );
 
+    const dateFormat = "YYYY-MM-DD"
+    const timeFormat = "YYYY-MM-DD HH:mm:ss"
+
     return await queryInterface.bulkInsert('Timeblocks', [
       {
-        date: moment().format("YYYY-MM-D"),
-        startTime: moment().format('HH:mm:ss'),
-        endTime: moment().subtract(30, "minutes").format('HH:mm:ss'),
+        date: moment().format(dateFormat),
+        startTime: moment().format(timeFormat),
+        endTime: moment().subtract(30, "minutes").format(timeFormat),
         UserId: userID,
         CategoryId: category1ID,
       },
       {
-        date: moment().format("YYYY-MM-D"),
-        startTime: moment().subtract(2, "hours").format('HH:mm:ss'),
-        endTime: moment().subtract(45, "minutes").format('HH:mm:ss'),
+        date: moment().format(dateFormat),
+        startTime: moment().subtract(2, "hours").format(timeFormat),
+        endTime: moment().subtract(45, "minutes").format(timeFormat),
         UserId: userID,
         CategoryId: category2ID,
       }
