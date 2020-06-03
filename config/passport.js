@@ -43,28 +43,23 @@ passport.use(new LocalStrategy(
   passport.use(new FacebookStrategy({
     clientID: process.env.FB_APPID,
     clientSecret: process.env.FB_SECRET,
-    callbackURL: `http://localhost:${process.env.PORT}/auth/facebook/callback`,
+    callbackURL: `${process.env.ROOT_URL}auth/facebook/callback`,
     profileFields: ['name', 'email']
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log("in the FacebookStrategy create or update")
-    console.log({profile})
 
     db.User.findOrCreate({
         where: { 
           facebook: profile.id,
-          firstName: profile.name.givenName,
-          lastName: profile.name.familyName,
         },
         defaults: {
-          //this should just use the properties from the where clause          
+          //this should just use the properties from the where clause  
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
         }
       },
       )
       .then((user) => {
-        console.log("====================")
-        console.log(user[0]) //looks like an array instead of object is returned
-        console.log("====================")
         return done(null, user[0])
       })
       .catch((err) => console.log(err))
