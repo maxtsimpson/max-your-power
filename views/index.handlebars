@@ -16,6 +16,11 @@
                 </div>
                 <div class="card col s12 m4">
                     <span class="flow-text">Graph n Pie Chart</span>
+                    <ul>
+                      {{#each Chart}}
+                      {{> Chart/chart}}
+                      {{/each}}
+                    </ul>
                 </div>
             </div>
 
