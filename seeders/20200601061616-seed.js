@@ -70,7 +70,8 @@ module.exports = {
       {
         date: moment().format(dateFormat),
         startTime: moment().format(timeFormat),
-        endTime: moment().subtract(30, "minutes").format(timeFormat),
+        endTime: moment().add(30, "minutes").format(timeFormat),
+        duration: moment().add(30, "minutes").diff(moment(),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
         UserId: userID,
         CategoryId: category1ID,
       },
@@ -78,6 +79,7 @@ module.exports = {
         date: moment().format(dateFormat),
         startTime: moment().subtract(2, "hours").format(timeFormat),
         endTime: moment().subtract(45, "minutes").format(timeFormat),
+        duration: moment().subtract(45, "minutes").diff(moment().subtract(2, "hours"),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
         UserId: userID,
         CategoryId: category2ID,
       }
