@@ -41,11 +41,14 @@ module.exports = function (app) {
     //get all categories for this user. this should be called after the user is logged in
     //passport will have added a user property to the request with the user details
 
-    console.log(req.user)
+    let userId = 5
+    if (req.user !== undefined){
+      userId = req.user.id
+    }
 
     db.Timeblock.findAll({
       where: {
-        userId: req.user.id || 5 //hardcoded for now for testing. need to get it to work with the front end
+        userId: userId //hardcoded for now for testing. need to get it to work with the front end
       },
       include: [
         {
