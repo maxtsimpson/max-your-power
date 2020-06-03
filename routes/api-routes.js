@@ -41,18 +41,38 @@ module.exports = function (app) {
     //get all categories for this user. this should be called after the user is logged in
     //passport will have added a user property to the request with the user details
 
-    db.Category.findAll({
-      where: { UserId: req.user.id },
-    })
-      .then((categories) => {
-        categories.map((category) => {
-          category.getTimeblocks()
-            .then({
+    let userId = 5
+    if (req.user !== undefined){
+      userId = req.user.id
+    }
 
-            })
+    db.Timeblock.findAll({
+      where: {
+        userId: userId //hardcoded for now for testing. need to get it to work with the front end
+      },
+      include: [
+        {
+          model: db.Category
+        },
+      ]
+    })
+      .then((timeblocks) => {
+        const categories = []
+        let summary = {}
+        let untracked = 100
+        timeblocks.map((timeblock) => {
+          const percentageOfDay = (timeblock.duration / 24 * 100) //need the duration to be a percentage of 24 hours
+          if (categories.includes(timeblock.Category.name)) {
+            summary[timeblock.Category.name] += percentageOfDay
+          }
+          else {
+            categories.push(timeblock.Category.name)
+            summary[timeblock.Category.name] = percentageOfDay
+          }
+          untracked -= percentageOfDay
         })
-        // results are available to us inside the .then
-        res.json(categories);
+        summary["untracked"] = untracked
+        res.json(summary)
       })
       .catch((error) => {
         console.log({ error })
@@ -72,22 +92,22 @@ module.exports = function (app) {
       name: req.body.name,
       color: req.body.color,
     })
-    .then(function (results) {
-      // `results` here would be the newly created Category
-      res.end();
-    })
-    .catch((error) => {
-      res.json(error)
-    })
+      .then(function (results) {
+        // `results` here would be the newly created Category
+        res.end();
+      })
+      .catch((error) => {
+        res.json(error)
+      })
 
   });
 
   app.post("/api/timeblocks", function (req, res) {
     console.log("in the api timeblock post")
-    
+
     //so the date and time formats below should be used.
     //if we need to start or stop a timeblock use the formats below
-    
+
     let newTimeblock = {
       date: moment().format("YYYY-MM-DD"),
       startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
