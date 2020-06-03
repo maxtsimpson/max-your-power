@@ -33,10 +33,6 @@ app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.all('/*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
 // Routes
 // =============================================================
 require("./routes/html-routes.js")(app);
