@@ -15,6 +15,9 @@ main {
   flex: 1 0 auto;
 }
 
+a{
+  color: navy !important;
+}
 #categoryname {
   border-radius: 5px;
 }
@@ -40,13 +43,13 @@ p.defaultsleep{
   padding: 10px;
 }
 .card.blue{
-  background-image: linear-gradient(#6dd5ed,#2193b0);
+  background-image: linear-gradient(#4A00E0,#8E2DE2);
 }
 :hover.card.blue{
-  background-image: linear-gradient(#2193b0,#2193b0);
+  background-image: linear-gradient(#4A00E0,#4A00E0);
 }
 .card.orange{
-  background-image: linear-gradient(#FDC830,#F37335);
+  background-image: linear-gradient(#F37335,#FDC830);
 }
 :hover.card.orange{
   background-image: linear-gradient(#F37335,#F37335);
