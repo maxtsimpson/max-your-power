@@ -1,19 +1,23 @@
-// Dependencies
-// =============================================================
-require('dotenv').config();
-// This may be confusing but here Sequelize (capital) references the standard library
-const Sequelize = require("sequelize");
-// sequelize (lowercase) references our connection to the DB.
-const sequelize = new Sequelize(process.env.JAWSDB_URL,{dialect: "mysql"});
+module.exports = function(sequelize, DataTypes) {
+  // Creates a "Category" model that matches up with DB
+  const Category = sequelize.define("Category", {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    color: DataTypes.STRING, //stores the color of the category. could be HEX i.e. FFFFFF or word i.e. white
+  });
 
-// Creates a "Category" model that matches up with DB
-const Category = sequelize.define("Category", {
-  name: Sequelize.STRING,
-  color: Sequelize.STRING, //stores the color of the category. could be HEX i.e. FFFFFF or word i.e. white
-});
+  Category.associate = function(models) {
+    // a category can have a lot of timeblocks
+    Category.hasMany(models.Timeblock, {
+      onDelete: "cascade"
+    });
+    // a category belongs to a user -- there can be duplicates with the same names but they are associated to different users
+    Category.belongsTo(models.User);
+  }
+  // Syncs with DB
+  // Category.sync();
 
-// Syncs with DB
-Category.sync();
-
-// Makes the Category Model available for other files (will also create a table)
-module.exports = Category;
+  return Category
+}
