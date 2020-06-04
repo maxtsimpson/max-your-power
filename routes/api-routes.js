@@ -41,8 +41,8 @@ module.exports = function (app) {
     //get all categories for this user. this should be called after the user is logged in
     //passport will have added a user property to the request with the user details
 
-    let userId = 5
-    if (req.user !== undefined){
+    let userId = 18
+    if (req.user !== undefined) {
       userId = req.user.id
     }
 
@@ -108,17 +108,66 @@ module.exports = function (app) {
     //so the date and time formats below should be used.
     //if we need to start or stop a timeblock use the formats below
 
-    let newTimeblock = {
+    let time = {
       date: moment().format("YYYY-MM-DD"),
       startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       endTime: moment().add(30, "minutes").format('YYYY-MM-DD HH:mm:ss'),
-      UserId: 1,
-      CategoryId: 1,
+      UserId: req.user.Id,
+      CategoryId: req.timeblock.categoryId,
+      Status: req.timeblock.status,
+      expectedDuration: moment().format('YYYY-MM-DD HH:mm:ss'),
+    }
+
+    let newTimeblock = {
+      date: moment().format("YYYY-MM-DD"), //just use todays date
+      // startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+      // endTime: moment().add(30, "minutes").format('YYYY-MM-DD HH:mm:ss'),
+      startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+      UserId: req.user.Id,
+      CategoryId: req.timeblock.categoryId,
+      Status: req.timeblock.status,
+      expectedDuration: req.timeblock.expectedDuration,
     }
 
     db.Timeblock.create(newTimeblock)
       .then((result) => {
         res.json(result)
+      })
+      .catch((error) => {
+        res.json(error)
+      })
+
+  })
+
+  app.get("/api/sleepSummaryThisWeek", function (req, res) {
+    //return an array of numbers
+    let userId = 18
+    if (req.user !== undefined) {
+      userId = req.user.id
+    }
+
+    //get all the timeblocks for the sleep category in the last 7 days and just fetch the duration property
+    //result should be an array of floats
+    
+    db.Timeblock.findAll({
+      attributes: ['duration'],
+      where: {
+        [Op.and]: [
+          { userId: userId },
+          { '$Category.name$': "sleep" },
+          {
+            duration: {
+              [Op.gte]: moment().subtract(7, 'days').toDate()
+            }
+          }
+        ] //hardcoded for now for testing. need to get it to work with the front end
+      },
+      include: [{ model: db.Category, as: 'Category' }]
+    })
+      .then((sleepTimeblocks) => {
+        //sleep Timeblocks is an array of objects. use map to get the actual field values and just return that
+        const sleepSummary = sleepTimeblocks.map(timeblock => timeblock.duration)
+        res.json(sleepSummary)
       })
       .catch((error) => {
         res.json(error)
