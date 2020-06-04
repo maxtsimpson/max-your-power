@@ -55,21 +55,10 @@ module.exports = function (app) {
 
         if (!req.user) {
             // The user is not logged in, send back an empty object
-            res.json({});
+            return res.json({});
         }
 
-        //find a user either by their id if it's been populated or by their facebook id
-        db.User.findOne(
-            {
-                where:
-                    { [Op.or]: [{ id: req.user.id, }, { facebook: req.user.facebook, }] },
-            })
-            .then((user) => {
-                res.json(user)
-            })
-            .catch((error) => {
-                res.status(500).json(error)
-            })
+        return res.json(req.user);
 
     });
 
