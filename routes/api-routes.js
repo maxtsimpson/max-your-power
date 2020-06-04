@@ -48,7 +48,10 @@ module.exports = function (app) {
 
     db.Timeblock.findAll({
       where: {
-        userId: userId //hardcoded for now for testing. need to get it to work with the front end
+        userId: userId, //hardcoded for now for testing. need to get it to work with the front end
+        date: {
+          [Op.eq]: moment().startOf("day").add(8,"hours") //i know this is ugly and there should be an easier way to get the local date.. but this works for now
+        }
       },
       include: [
         {
