@@ -9,14 +9,13 @@ const weekDays = [
   "Friday",
 ];
 
-const pieChartContext = document.getElementById("pieChart");
+const doughnutChartContext = document.getElementById("doughnutChart");
 
 $.get("/api/category/timeSummaryPercentageOfDay")
   .then((categories) => {
-    console.log(categories)
     const labels = (Object.keys(categories))
     const data = Object.values(categories) 
-    const myDoughnutChart = new Chart(pieChartContext, {
+    const myDoughnutChart = new Chart(doughnutChartContext, {
       type: "doughnut",
       data: {
         labels: labels,
