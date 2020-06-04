@@ -14,6 +14,21 @@ const moment = require("moment")
 // =============================================================
 module.exports = function (app) {
 
+  let userId
+
+  app.get("/api/loadDemoUser", function (req,res) {
+    db.User.findOne({
+      where: { email: 'test@test.com' }
+    })
+      .then((user) => {
+        res.json(user)
+        userId = user.id
+      })
+      .catch((error) => {
+        res.json(error)
+      })
+  })
+
   // Get all Categorys
   app.get("/api/category/", function (req, res) {
 
@@ -28,7 +43,6 @@ module.exports = function (app) {
         res.json(categories);
       })
       .catch((error) => {
-        console.log({ error })
         res.json(error)
       })
 
@@ -41,7 +55,6 @@ module.exports = function (app) {
     //get all categories for this user. this should be called after the user is logged in
     //passport will have added a user property to the request with the user details
 
-    let userId = 18
     if (req.user !== undefined) {
       userId = req.user.id
     }
@@ -78,7 +91,6 @@ module.exports = function (app) {
         res.json(summary)
       })
       .catch((error) => {
-        console.log({ error })
         res.json(error)
       })
 
@@ -106,7 +118,6 @@ module.exports = function (app) {
   });
 
   app.post("/api/timeblocks", function (req, res) {
-    console.log("in the api timeblock post")
 
     //so the date and time formats below should be used.
     //if we need to start or stop a timeblock use the formats below
@@ -144,7 +155,6 @@ module.exports = function (app) {
 
   app.get("/api/sleepSummaryThisWeek", function (req, res) {
     //return an array of numbers
-    let userId = 18
     if (req.user !== undefined) {
       userId = req.user.id
     }
