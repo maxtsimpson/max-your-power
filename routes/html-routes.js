@@ -9,9 +9,13 @@ module.exports = function(app) {
   app.get("/", function(req, res) {
       res.render("index");
   });
-  
+
   app.get("/interface", isAuthenticated, function(req, res) {
     res.render("interface");
+  });
+
+  app.get("/tracker", isAuthenticated, function(req, res) {
+    res.render("tracker");
   });
 
 
