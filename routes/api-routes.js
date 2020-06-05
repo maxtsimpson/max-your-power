@@ -97,7 +97,7 @@ module.exports = function (app) {
         let lastNightSleep = timeblocks.splice(timeblocks.findIndex(timeblock => timeblock.Category.Name === 'sleep'),1)
         console.log(`last nights sleep finished ${lastNightSleep[0].endTime}`)
         //caclulate the hours of the day so far based off when last nights sleep ended and this moment now
-        const hoursSoFar = moment().diff(moment(lastNightSleep[0].endTime, 'h:mm A'),'hours',true)
+        const hoursSoFar = moment().add(8,"hours").diff(moment(lastNightSleep[0].endTime, 'h:mm A'),'hours',true) // have to add 8 hours to the current moment before diff to get perth time
         console.log(`hoursSoFar ${hoursSoFar}`)
         timeblocks.map((timeblock) => {
           //calc percentageOfDay as how long in hours have i been doing this activity divided by how many hours in the day so far
