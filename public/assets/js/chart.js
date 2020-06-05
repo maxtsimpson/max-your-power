@@ -1,80 +1,69 @@
-$(document).ready(function () {
-  // dummy data for mock up purpose
-  let categories = {
-    work: 20,
-    sleep: 10,
-    hobby: 5,
-    untracked: 65,
-  };
+//use a for loop and moment js to build this dynamicall based on today subtract index to Day format
+const weekDays = [
+  "Saturday",
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+];
 
-  const weekDays = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
+const doughnutChartContext = document.getElementById("doughnutChart");
 
-  const data = [20, 10, 5, 16, 8, 9, 12];
-
-  function getPostData() {
-    $.ajax({
-      url: "/api/category/timeSummaryPercentageOfDay",
-      method: "GET"
-    }).then(function(response) {
-      console.log(response);
-      return response;
+$.get("/api/category/timeSummaryPercentageOfDay")
+  .then((categories) => {
+    const labels = Object.keys(categories)
+    const data = Object.values(categories) 
+    const myDoughnutChart = new Chart(doughnutChartContext, {
+      type: "doughnut",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "Todays Categories",
+            // data: data,
+            data: data,
+            backgroundColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
     });
-  }
+  })
+  .catch((error) => console.error(`category ajax call failed ${error}`));
 
-  categories = getPostData();
+// Add line chart
+const lineChartContext = document.getElementById("lineChart");
 
-  const ctx1 = document.getElementById("doughnutChart");
-  const ctx2 = document.getElementById("lineChart");
-
-  // add doughnut chart
-  const myDoughnutChart = new Chart(ctx1, {
-    type: "doughnut",
-    data: {
-      labels: Object.keys(categories),
-      datasets: [
-        {
-          label: "Todays Categories",
-          data: Object.values(categories),
-          backgroundColor: [
-            "rgba(255, 99, 132, 1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-          ],
-          borderColor: [
-            "rgba(255, 99, 132, 1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-          ],
-          borderWidth: 1,
-        },
-      ],
-    },
-  });
-
-  // Add line chart
-  const myLineChart = new Chart(ctx2, {
-    type: "line",
-    data: {
-      labels: weekDays,
-      datasets: [
-        {
-          label: "sleep",
-          data: data,
-          borderColor: ["rgba(255, 99, 132, 1)"],
-          borderWidth: 3,
-          fill: false,
-        },
-      ],
-    },
-  });
+$.get("/api/sleepSummaryThisWeek")
+  .then((data) => {
+    const myLineChart = new Chart(lineChartContext, {
+      type: "line",
+      data: {
+        labels: weekDays,
+        datasets: [
+          {
+            label: "sleep",
+            data: data,
+            borderColor: ["rgba(255, 99, 132, 1)"],
+            borderWidth: 3,
+            fill: false,
+          },
+        ],
+      },
+    });
+  })
+  .catch((error) => console.error(`sleep ajax call failed ${error}`));
 
 
-});
+
