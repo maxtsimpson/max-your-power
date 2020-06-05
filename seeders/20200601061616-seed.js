@@ -35,7 +35,7 @@ module.exports = {
     await queryInterface.bulkInsert('Categories', [
       {
           name: 'work',
-          color: 'red',
+          color: 'purple',
           userId: userID,
       },
       {
@@ -43,21 +43,20 @@ module.exports = {
           color: 'blue',
           userId: userID,
       },
+      {
+        name: 'sleep',
+        color: 'red',
+        userId: userID,
+      },
     ], {})
 
     console.log('finished bulk insert of Categories');
 
-    const categories = await queryInterface.sequelize.query(
+    const output = await queryInterface.sequelize.query(
       `SELECT id from Categories;`
-    );
+    )
 
-    const category1 = categories[0] //this gets back the first row returned
-    const category1ID = category1[0].id //for some reason this is an array as well
-
-    const category2 = categories[0] //this gets back the first row returned
-    const category2ID = category2[0].id //for some reason this is an array as well
-
-    console.log('about to start bulk insert of timeblocks');
+    const categories = output[0].map(textRow => textRow.id)
 
     await queryInterface.sequelize.query(
       `delete from Timeblocks;`
@@ -73,7 +72,7 @@ module.exports = {
         endTime: moment().add(30, "minutes").format(timeFormat),
         duration: moment().add(30, "minutes").diff(moment(),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
         UserId: userID,
-        CategoryId: category1ID,
+        CategoryId: categories[0],
       },
       {
         date: moment().format(dateFormat),
@@ -81,8 +80,66 @@ module.exports = {
         endTime: moment().subtract(45, "minutes").format(timeFormat),
         duration: moment().subtract(45, "minutes").diff(moment().subtract(2, "hours"),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
         UserId: userID,
-        CategoryId: category2ID,
-      }
+        CategoryId: categories[1],
+      },
+      {
+        date: moment().subtract(7, "days").format(dateFormat),
+        startTime: moment('10:00 PM', 'h:mm A').subtract(7, "days").format(timeFormat),
+        endTime: moment('6:00 AM', 'h:mm A').subtract(6, "days").format(timeFormat),
+        duration: moment('6:00 AM', 'h:mm A').subtract(6, "days").diff(moment('10:00 PM', 'h:mm A').subtract(7, "days"),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
+        UserId: userID,
+        CategoryId: categories[2],
+      },
+      {
+        date: moment().subtract(6, "days").format(dateFormat),
+        startTime: moment('9:38 PM', 'h:mm A').subtract(6, "days").format(timeFormat),
+        endTime: moment('5:43 AM', 'h:mm A').subtract(5, "days").format(timeFormat),
+        duration: moment('5:43 AM', 'h:mm A').subtract(5, "days").diff(moment('9:38 PM', 'h:mm A').subtract(6, "days"),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
+        UserId: userID,
+        CategoryId: categories[2],
+      },
+      {
+        date: moment().subtract(5, "days").format(dateFormat),
+        startTime: moment('11:52 PM', 'h:mm A').subtract(5, "days").format(timeFormat),
+        endTime: moment('7:02 AM', 'h:mm A').subtract(4, "days").format(timeFormat),
+        duration: moment('7:02 AM', 'h:mm A').subtract(4, "days").diff(moment('11:52 PM', 'h:mm A').subtract(5, "days"),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
+        UserId: userID,
+        CategoryId: categories[2],
+      },
+      {
+        date: moment().subtract(4, "days").format(dateFormat),
+        startTime: moment('2:00 AM', 'h:mm A').subtract(3, "days").format(timeFormat),
+        endTime: moment('8:11 AM', 'h:mm A').subtract(3, "days").format(timeFormat),
+        duration: moment('8:11 AM', 'h:mm A').subtract(3, "days").diff(moment('2:00 AM', 'h:mm A').subtract(3, "days"),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
+        UserId: userID,
+        CategoryId: categories[2],
+      },
+      {
+        date: moment().subtract(3, "days").format(dateFormat),
+        startTime: moment('10:04 PM', 'h:mm A').subtract(3, "days").format(timeFormat),
+        endTime: moment('6:16 AM', 'h:mm A').subtract(2, "days").format(timeFormat),
+        duration: moment('6:16 AM', 'h:mm A').subtract(2, "days").diff(moment('10:04 PM', 'h:mm A').subtract(3, "days"),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
+        UserId: userID,
+        CategoryId: categories[2],
+      },
+      {
+        date: moment().subtract(2, "days").format(dateFormat),
+        startTime: moment('8:54 PM', 'h:mm A').subtract(2, "days").format(timeFormat),
+        endTime: moment('6:12 AM', 'h:mm A').subtract(1, "days").format(timeFormat),
+        duration: moment('6:12 AM', 'h:mm A').subtract(1, "days").diff(moment('8:54 PM', 'h:mm A').subtract(2, "days"),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
+        UserId: userID,
+        CategoryId: categories[2],
+      },
+      {
+        date: moment().subtract(1, "days").format(dateFormat),
+        startTime: moment('9:24 PM', 'h:mm A').subtract(1, "days").format(timeFormat),
+        endTime: moment('7:22 AM', 'h:mm A').format(timeFormat),
+        duration: moment('7:22 AM', 'h:mm A').diff(moment('9:24 PM', 'h:mm A').subtract(1, "days"),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
+        UserId: userID,
+        CategoryId: categories[2],
+      },
+
+      
     ], {})
 
   },
