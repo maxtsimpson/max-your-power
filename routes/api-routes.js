@@ -9,7 +9,7 @@ const passport = require('passport');
 const db = require("../models")
 const { Op } = require("sequelize");
 const moment = require("moment")
-
+const dateFormat = "YYYY-MM-DD"
 // Routes
 // =============================================================
 module.exports = function (app) {
@@ -59,21 +59,24 @@ module.exports = function (app) {
       userId = req.user.id
     }
 
+    const todayDate = moment().startOf("day").format(dateFormat) //timezone is causing me a lot of problems
+    const yesterdayDate = moment().startOf("day").subtract(1, "days").format(dateFormat)
+
     db.Timeblock.findAll({
       where: {
-        userId: userId, //hardcoded for now for testing. need to get it to work with the front end
+        userId: userId,
         [Op.or]:
           [
             {
               date: {
-                [Op.eq]: moment().startOf("day").add(8,"hours") //i know this is ugly and there should be an easier way to get the local date.. but this works for now
+                [Op.eq]: todayDate
               }
             },
             {
               [Op.and]:
                 [
                   {
-                    date: {[Op.eq]: moment().startOf("day").add(8,"hours").subtract(1, "days")}
+                    date: {[Op.eq]: yesterdayDate}
                   },
                   {
                     '$Category.name$': "sleep"
