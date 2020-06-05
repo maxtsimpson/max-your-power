@@ -9,9 +9,8 @@ module.exports = function (app) {
 
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', { failureRedirect: '/' }), function (req, res) {
-            res.redirect('/members');
+            res.redirect('/interface');
         });
-
 
     app.post("/auth/login", passport.authenticate("local"), function (req, res) {
         res.json(req.user);

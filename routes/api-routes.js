@@ -16,9 +16,9 @@ module.exports = function (app) {
 
   let userId
 
-  app.get("/api/loadDemoUser", function (req,res) {
+  app.get("/api/loadDemoUser", function (req, res) {
     db.User.findOne({
-      where: { email: 'test@test.com' }
+      where: { email: 'maxsimpson95@gmail.com' }
     })
       .then((user) => {
         res.json(user)
@@ -62,29 +62,51 @@ module.exports = function (app) {
     db.Timeblock.findAll({
       where: {
         userId: userId, //hardcoded for now for testing. need to get it to work with the front end
-        date: {
-          [Op.eq]: moment().startOf("day").add(8,"hours") //i know this is ugly and there should be an easier way to get the local date.. but this works for now
-        }
+        [Op.or]:
+          [
+            {
+              date: {
+                [Op.eq]: moment().startOf("day").add(8, "hours") //i know this is ugly and there should be an easier way to get the local date.. but this works for now
+              }
+            },
+            {
+              [Op.and]:
+                [
+                  {
+                    date: {[Op.eq]: moment().startOf("day").add(8, "hours").subtract(1, "days")}
+                  },
+                  {
+                    '$Category.name$': "sleep"
+                  }
+                ]
+            },
+          ],
+        //date is today or date is yesterday and category is sleep
       },
-      include: [
-        {
-          model: db.Category
-        },
-      ]
+      include: [{ model: db.Category, as: 'Category' }]
     })
       .then((timeblocks) => {
+        //initialise some variables
         const categories = []
         let summary = {}
         let untracked = 100
+        //get the timeblock out of the result that has the category sleep. this will be the sleep from last night to this morning
+        let lastNightSleep = timeblocks.splice(timeblocks.findIndex(timeblock => timeblock.Category.Name === 'sleep'),1)
+        //caclulate the hours of the day so far based off when last nights sleep ended and this moment now
+        const hoursSoFar = moment().diff(moment(lastNightSleep[0].endTime, 'h:mm A'),'hours',true)
         timeblocks.map((timeblock) => {
-          const percentageOfDay = (timeblock.duration / 24 * 100) //need the duration to be a percentage of 24 hours
+          //calc percentageOfDay as how long in hours have i been doing this activity divided by how many hours in the day so far
+          const percentageOfDay = parseInt(timeblock.duration / hoursSoFar * 100)
+          //if the categories list already has this category add the duration of this timeblock to the total
           if (categories.includes(timeblock.Category.name)) {
             summary[timeblock.Category.name] += percentageOfDay
           }
-          else {
+          else //if the categories list doesnt have this category add the category to the list and set the total to the duration of this timeblock
+          {
             categories.push(timeblock.Category.name)
             summary[timeblock.Category.name] = percentageOfDay
           }
+          //reduce 
           untracked -= percentageOfDay
         })
         summary["untracked"] = untracked
@@ -161,7 +183,7 @@ module.exports = function (app) {
 
     //get all the timeblocks for the sleep category in the last 7 days and just fetch the duration property
     //result should be an array of floats
-    
+
     db.Timeblock.findAll({
       attributes: ['duration'],
       where: {

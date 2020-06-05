@@ -11,11 +11,11 @@ module.exports = {
 
     await queryInterface.bulkInsert('Users', [
       {
-          email: 'test@test.com',
+          email: 'maxsimpson95@gmail.com',
           password: 'password',
-          facebook: null,
-          firstName: 'Steve',
-          lastName: 'Jones'
+          facebook: '10157419330571375',
+          firstName: 'Max',
+          lastName: 'Simpson'
       }
     ], {})
 
@@ -68,17 +68,17 @@ module.exports = {
     return await queryInterface.bulkInsert('Timeblocks', [
       {
         date: moment().format(dateFormat),
-        startTime: moment().format(timeFormat),
-        endTime: moment().add(30, "minutes").format(timeFormat),
-        duration: moment().add(30, "minutes").diff(moment(),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
+        startTime: moment('10:00 AM', 'h:mm A').format(timeFormat),
+        endTime: moment().format(timeFormat),
+        duration: moment().diff(moment('10:00 AM', 'h:mm A'),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
         UserId: userID,
         CategoryId: categories[0],
       },
       {
         date: moment().format(dateFormat),
-        startTime: moment().subtract(2, "hours").format(timeFormat),
-        endTime: moment().subtract(45, "minutes").format(timeFormat),
-        duration: moment().subtract(45, "minutes").diff(moment().subtract(2, "hours"),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
+        startTime: moment('8:00 AM', 'h:mm A').format(timeFormat),
+        endTime: moment('10:00 AM', 'h:mm A').format(timeFormat),
+        duration: moment('10:00 AM', 'h:mm A').diff(moment('8:00 AM', 'h:mm A'),'hours',true), //usually this would be calculated before insert but queryInterface doesnt support the hook
         UserId: userID,
         CategoryId: categories[1],
       },

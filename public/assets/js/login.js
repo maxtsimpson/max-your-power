@@ -43,7 +43,7 @@ $(document).ready(function() {
       .then(function() {
         console.log("logged in successfully")
         //the window is the browser i.e. chrome. by changing the location it loads the members web page
-        window.location.replace("/members");
+        window.location.replace("/interface");
         // If there's an error, log the error
       })
       .catch(function(err) {
