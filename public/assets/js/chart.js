@@ -13,7 +13,7 @@ const doughnutChartContext = document.getElementById("doughnutChart");
 
 $.get("/api/category/timeSummaryPercentageOfDay")
   .then((categories) => {
-    const labels = (Object.keys(categories))
+    const labels = Object.keys(categories)
     const data = Object.values(categories) 
     const myDoughnutChart = new Chart(doughnutChartContext, {
       type: "doughnut",
