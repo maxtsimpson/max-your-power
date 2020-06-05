@@ -66,14 +66,14 @@ module.exports = function (app) {
           [
             {
               date: {
-                [Op.eq]: moment().startOf("day").add(8, "hours") //i know this is ugly and there should be an easier way to get the local date.. but this works for now
+                [Op.eq]: moment().startOf("day") //i know this is ugly and there should be an easier way to get the local date.. but this works for now
               }
             },
             {
               [Op.and]:
                 [
                   {
-                    date: {[Op.eq]: moment().startOf("day").add(8, "hours").subtract(1, "days")}
+                    date: {[Op.eq]: moment().startOf("day").subtract(1, "days")}
                   },
                   {
                     '$Category.name$': "sleep"
