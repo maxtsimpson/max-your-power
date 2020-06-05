@@ -1,4 +1,5 @@
 const moment = require("moment")
+const bcrypt = require('bcrypt');
 const db = require("../models")
 'use strict';
 
@@ -9,10 +10,11 @@ module.exports = {
       `delete from Users;`
     );
 
+    const password = bcrypt.hashSync('password', bcrypt.genSaltSync(10), null);
     await queryInterface.bulkInsert('Users', [
       {
           email: 'maxsimpson95@gmail.com',
-          password: 'password',
+          password: password,
           facebook: '10157419330571375',
           firstName: 'Max',
           lastName: 'Simpson'
