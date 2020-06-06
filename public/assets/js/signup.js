@@ -29,7 +29,7 @@ $(document).ready(function() {
   function signUpUser(userData) {
     $.post("/auth/signup", userData)
       .then(function(data) {
-        window.location.replace("/members");
+        window.location.replace("/interface");
         // If there's an error, handle it by throwing up a bootstrap alert
       })
       .catch(handleLoginErr);
