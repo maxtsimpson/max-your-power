@@ -19,7 +19,6 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   Timeblock.addHook("beforeCreate", function (timeblock) {
-    console.log("in timeblock before hook")
     //if the startime and endtime are defined then get their diff as duration in hours
     if(timeblock.startTime !== undefined && timeblock.endTime !== undefined){
       timeblock.duration = moment(timeblock.endTime).diff(moment(timeblock.startTime),'hours',true)
