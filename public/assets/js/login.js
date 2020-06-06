@@ -33,15 +33,12 @@ $(document).ready(function() {
   // loginUser does a post to our "api/login" route and if successful, redirects us the the members page
   function loginUser(email, password) {
 
-    console.log("in loginUser")
-
     $.post("/auth/login", {
       email: email,
       password: password
     })
       //once the post request completes. if successful redirect the user to /members. otherwise console log the error text
       .then(function() {
-        console.log("logged in successfully")
         //the window is the browser i.e. chrome. by changing the location it loads the members web page
         window.location.replace("/interface");
         // If there's an error, log the error
