@@ -10,16 +10,37 @@ nav {
   background-color: white;
 }
 
+nav a {
+  color: rgb(158, 158, 157) !important;
+  font-weight: bold;
+}
+
+.btn .btn-primary a{
+  color: white;
+}
+
+.btn{
+  background-color: black;
+
+}
+
+#fblogn{
+  color: white;
+}
+#navlogo{
+  width: 10vh;
+}
+
+#familypic{
+  width: ;
+}
+
 .nav-wrapper .brand-logo {
   color: #2193b0;
 }
 
 main {
   flex: 1 0 auto;
-}
-
-a {
-  color: navy !important;
 }
 
 #categoryname {
