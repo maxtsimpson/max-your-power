@@ -17,8 +17,6 @@ $(document).ready(function() {
       lastName: lastNameInput.val().trim()
     };
 
-    console.log({userData})
-
     if (!userData.email || !userData.password) {
       return;
     }
