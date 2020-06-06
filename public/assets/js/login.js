@@ -46,8 +46,8 @@ $(document).ready(function() {
         window.location.replace("/interface");
         // If there's an error, log the error
       })
-      .catch(function(err) {
-        console.log(err);
+      .catch((err) => {
+        M.toast({html: `login failed`, classes: 'red'})
       });
   }
 });
