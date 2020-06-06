@@ -143,10 +143,10 @@ module.exports = function (app) {
   });
 
   app.post("/api/timeblocks", function (req, res) {
-
-    //so the date and time formats below should be used.
-    //if we need to start or stop a timeblock use the formats below
-
+  
+    //there is some changes we may need to make to the timeblocks model
+    //i didnt realise the timeblock would need to know the expected duration for the gui features to work
+    //this time object is the start of that work but we didnt finish
     let time = {
       date: moment().format("YYYY-MM-DD"),
       startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -157,15 +157,22 @@ module.exports = function (app) {
       expectedDuration: moment().format('YYYY-MM-DD HH:mm:ss'),
     }
 
+    //byy default the newTimeblock starts now and is 30 mins
     let newTimeblock = {
       date: moment().format("YYYY-MM-DD"), //just use todays date
-      // startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
-      // endTime: moment().add(30, "minutes").format('YYYY-MM-DD HH:mm:ss'),
+      endTime: moment().add(30, "minutes").format('YYYY-MM-DD HH:mm:ss'),
       startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       UserId: req.user.Id,
       CategoryId: req.timeblock.categoryId,
-      Status: req.timeblock.status,
-      expectedDuration: req.timeblock.expectedDuration,
+    }
+
+    //if the start and end of the timeblock are specificed use those
+    if(req.timeblock.endTime !== undefined){
+      newTimeblock.endTime = moment(req.timeblock.endTime).format('YYYY-MM-DD HH:mm:ss')
+    }
+
+    if(req.timeblock.startTime !== undefined){
+      newTimeblock.startTime = moment(req.timeblock.startTime).format('YYYY-MM-DD HH:mm:ss')
     }
 
     db.Timeblock.create(newTimeblock)
