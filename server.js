@@ -11,23 +11,13 @@ const session = require("express-session");
 const passport = require('./config/passport');
 const db = require("./models");
 
-function shouldCompress (req, res) {
-  if (req.headers['x-no-compression']) {
-    // don't compress responses with this request header
-    return false
-  }
- 
-  // fallback to standard filter function
-  return compression.filter(req, res)
-}
-
 // Sets up the Express App
 // =============================================================
 let app = express();
 const PORT = process.env.PORT || 8080;
 
 //use compression 
-// app.use(compression({ filter: shouldCompress }))
+app.use(compression({}))
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
