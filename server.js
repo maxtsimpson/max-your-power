@@ -27,7 +27,7 @@ let app = express();
 const PORT = process.env.PORT || 8080;
 
 //use compression 
-app.use(compression({ filter: shouldCompress }))
+// app.use(compression({ filter: shouldCompress }))
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
